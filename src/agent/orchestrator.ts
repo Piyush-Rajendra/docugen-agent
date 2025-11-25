@@ -35,7 +35,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
     // Parse GitHub URL
     githubInfo = parseGitHubUrl(config.githubUrl);
     if (!githubInfo) {
-      console.error("❌ Invalid GitHub URL format");
+      console.error("  Invalid GitHub URL format");
       return;
     }
 
@@ -47,7 +47,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
     });
 
     if (!treeResult.success || treeResult.tree.length === 0) {
-      console.error("❌ Failed to fetch repository or no code files found");
+      console.error("  Failed to fetch repository or no code files found");
       return;
     }
 
@@ -58,7 +58,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
     filesToProcess = selection.selectedFiles;
 
     if (filesToProcess.length === 0) {
-      console.log("❌ No files selected");
+      console.log("  No files selected");
       return;
     }
   } else if (config.targetDir) {
@@ -73,7 +73,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
     console.log(`✅ Found ${scanResult.files.length} code files\n`);
     filesToProcess = scanResult.files;
   } else {
-    console.error("❌ Must specify either --target or --github");
+    console.error("  Must specify either --target or --github");
     return;
   }
 
@@ -132,7 +132,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
   console.log(`✅ Parsed ${parsedFiles.length} files with code elements\n`);
 
   if (parsedFiles.length === 0) {
-    console.log("❌ No code elements found to document");
+    console.log("  No code elements found to document");
     return;
   }
 

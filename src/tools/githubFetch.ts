@@ -46,12 +46,21 @@ export async function fetchRepoTree(
   input: FetchRepoTreeInput
 ): Promise<FetchRepoTreeOutput> {
   const branch = input.branch || "main";
-  const apiUrl = `https://api.github.com/repos/${input.owner}/${input.repo}/git/trees/${branch}?recursive=1`;
-
+  
   try {
-    const response = await fetch(apiUrl);
+    // Try main first
+    let apiUrl = `https://api.github.com/repos/${input.owner}/${input.repo}/git/trees/${branch}?recursive=1`;
+    let response = await fetch(apiUrl);
+    
+    // If main fails, try master
+    if (!response.ok && branch === "main") {
+      apiUrl = `https://api.github.com/repos/${input.owner}/${input.repo}/git/trees/master?recursive=1`;
+      response = await fetch(apiUrl);
+    }
+    
     if (!response.ok) {
-      console.error(`GitHub API error: ${response.status}`);
+      console.error(`GitHub API error: ${response.status} ${response.statusText}`);
+      console.error(`Make sure the repository is public and exists`);
       return { tree: [], success: false };
     }
 
@@ -76,16 +85,23 @@ export async function fetchRepoTree(
     return { tree: [], success: false };
   }
 }
-
 // Fetch content of a specific file
 export async function fetchFileContent(
   input: FetchFileContentInput
 ): Promise<FetchFileContentOutput> {
   const branch = input.branch || "main";
-  const apiUrl = `https://api.github.com/repos/${input.owner}/${input.repo}/contents/${input.path}?ref=${branch}`;
-
+  
   try {
-    const response = await fetch(apiUrl);
+    // Try main first
+    let apiUrl = `https://api.github.com/repos/${input.owner}/${input.repo}/contents/${input.path}?ref=${branch}`;
+    let response = await fetch(apiUrl);
+    
+    // If main fails, try master
+    if (!response.ok && branch === "main") {
+      apiUrl = `https://api.github.com/repos/${input.owner}/${input.repo}/contents/${input.path}?ref=master`;
+      response = await fetch(apiUrl);
+    }
+    
     if (!response.ok) {
       console.error(`GitHub API error: ${response.status}`);
       return { content: "", path: input.path, success: false };
@@ -94,7 +110,7 @@ export async function fetchFileContent(
     const data = await response.json();
     
     // GitHub returns base64 encoded content
-    const content = atob(data.content);
+    const content = atob(data.content.replace(/\n/g, ""));
 
     return { content, path: input.path, success: true };
   } catch (error) {

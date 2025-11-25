@@ -20,13 +20,14 @@ export interface ToolResult {
  * Parsed function/class information
  */
 export interface CodeElement {
-  type: "function" | "class" | "interface" | "type";
+  type: "function" | "class" | "interface" | "type" | "route" | "export";
   name: string;
   startLine: number;
   endLine: number;
   code: string;
   params?: string[];
   returnType?: string;
+  line: number;
 }
 
 /**

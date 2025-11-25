@@ -13,7 +13,7 @@ async function main() {
   const apiKey = args["api-key"] || Deno.env.get("ANTHROPIC_API_KEY");
 
   if (!apiKey) {
-    console.error("❌ Error: ANTHROPIC_API_KEY not found!");
+    console.error("  Error: ANTHROPIC_API_KEY not found!");
     console.error("Set it via:");
     console.error("  - Environment variable: export ANTHROPIC_API_KEY=your-key");
     console.error("  - Command line flag: --api-key=your-key");
@@ -22,7 +22,7 @@ async function main() {
 
   // Validate input
   if (!args.target && !args.github) {
-    console.error("❌ Error: Must specify either --target or --github");
+    console.error(" Error: Must specify either --target or --github");
     console.error("\nUsage:");
     console.error("  Local:  deno task start --target ./src --output ./docs");
     console.error("  GitHub: deno task start --github https://github.com/user/repo --output ./docs");
@@ -30,7 +30,7 @@ async function main() {
   }
 
   if (args.target && args.github) {
-    console.error("❌ Error: Cannot use both --target and --github");
+    console.error("  Error: Cannot use both --target and --github");
     Deno.exit(1);
   }
 
