@@ -47,7 +47,7 @@ export async function cloneRepository(
       localPath: localPath,
     };
 
-    console.log(`✅ Successfully cloned to: ${localPath}\n`);
+    console.log(`  Successfully cloned to: ${localPath}\n`);
 
     return {
       success: true,
@@ -72,7 +72,7 @@ export async function listRepoDirectories(
     const resolvedPath = path.resolve(ctx.workingDirectory, repoPath);
     const directories: string[] = [];
 
-    console.log(`📂 Scanning repository structure...\n`);
+    console.log(`  Scanning repository structure...\n`);
 
     for await (const entry of Deno.readDir(resolvedPath)) {
       if (
@@ -87,7 +87,7 @@ export async function listRepoDirectories(
     directories.sort();
 
     if (directories.length === 0) {
-      console.log("⚠️  No subdirectories found (will use root directory)\n");
+      console.log("   No subdirectories found (will use root directory)\n");
     } else {
       console.log("Available directories:");
       directories.forEach((dir, idx) => {

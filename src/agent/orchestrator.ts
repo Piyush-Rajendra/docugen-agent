@@ -17,7 +17,7 @@ export interface AgentConfig {
 }
 
 export async function runDocGenAgent(config: AgentConfig): Promise<void> {
-  console.log("\n🤖 DocuGen Agent - AI-Powered Documentation Generator");
+  console.log("\n   DocuGen Agent - AI-Powered Documentation Generator");
   console.log("━".repeat(60));
   
   let filesToProcess: string[] = [];
@@ -27,8 +27,8 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
   // Determine mode: Local or GitHub
   if (config.githubUrl) {
     isGitHub = true;
-    console.log(`🌐 Mode: GitHub Repository`);
-    console.log(`📂 URL: ${config.githubUrl}`);
+    console.log(`    Mode: GitHub Repository`);
+    console.log(`  URL: ${config.githubUrl}`);
     console.log(`📁 Output: ${config.outputDir}`);
     console.log("━".repeat(60));
 
@@ -51,7 +51,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
       return;
     }
 
-    console.log(`✅ Found ${treeResult.tree.length} code files\n`);
+    console.log(`  Found ${treeResult.tree.length} code files\n`);
 
     // Interactive file selection
     const selection = await selectFiles({ files: treeResult.tree });
@@ -62,15 +62,15 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
       return;
     }
   } else if (config.targetDir) {
-    console.log(`📂 Mode: Local Directory`);
-    console.log(`📂 Target: ${config.targetDir}`);
+    console.log(`  Mode: Local Directory`);
+    console.log(`  Target: ${config.targetDir}`);
     console.log(`📁 Output: ${config.outputDir}`);
     console.log("━".repeat(60));
 
     // Scan local directory
     console.log("\nStep 1: Scanning directory...");
     const scanResult = await scanDirectory({ path: config.targetDir });
-    console.log(`✅ Found ${scanResult.files.length} code files\n`);
+    console.log(`  Found ${scanResult.files.length} code files\n`);
     filesToProcess = scanResult.files;
   } else {
     console.error("  Must specify either --target or --github");
@@ -82,7 +82,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
   const parsedFiles = [];
 
   for (const file of filesToProcess) {
-    console.log(`   📄 Parsing: ${file}`);
+    console.log(`     Parsing: ${file}`);
 
     let fileContent = "";
     
@@ -95,7 +95,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
       });
       
       if (!contentResult.success) {
-        console.log(`   ⚠️  Skipping (fetch failed): ${file}`);
+        console.log(`      Skipping (fetch failed): ${file}`);
         continue;
       }
       
@@ -129,7 +129,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
     }
   }
   
-  console.log(`✅ Parsed ${parsedFiles.length} files with code elements\n`);
+  console.log(`  Parsed ${parsedFiles.length} files with code elements\n`);
 
   if (parsedFiles.length === 0) {
     console.log("  No code elements found to document");
@@ -141,7 +141,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
   const documentedFiles = [];
   
   for (const parsed of parsedFiles) {
-    console.log(`   🤖 Documenting: ${parsed.filePath}`);
+    console.log(`      Documenting: ${parsed.filePath}`);
     const docsResult = await generateDocs(
       {
         elements: parsed.elements,
@@ -152,7 +152,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
     documentedFiles.push(docsResult);
   }
   
-  console.log(`✅ Generated documentation for ${documentedFiles.length} files\n`);
+  console.log(`  Generated documentation for ${documentedFiles.length} files\n`);
 
   // Step 4: Export to markdown
   console.log("Step 4: Exporting documentation...");
@@ -164,11 +164,11 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
     });
     
     if (exportResult.success) {
-      console.log(`   ✅ Exported: ${exportResult.exportPath}`);
+      console.log(`     Exported: ${exportResult.exportPath}`);
     }
   }
 
   console.log("\n" + "━".repeat(60));
-  console.log("🎉 Documentation generation complete!");
+  console.log("  Documentation generation complete!");
   console.log("━".repeat(60) + "\n");
 }

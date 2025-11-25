@@ -1,4 +1,4 @@
-# DocuGen Agent 🤖📝
+# DocuGen Agent   📝
 
 AI-powered code documentation generator built with the Zypher Agent framework principles.
 

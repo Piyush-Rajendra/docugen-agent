@@ -35,7 +35,7 @@ function buildTreeView(files: GitHubFileNode[]): string[] {
     }
     for (const file of fileList) {
       const fileName = file.split("/").pop()!;
-      lines.push(`  [${index}] 📄 ${fileName} (${file})`);
+      lines.push(`  [${index}]   ${fileName} (${file})`);
       index++;
     }
   }
@@ -71,7 +71,7 @@ export async function selectFiles(
       .map(i => input.files[i].path);
   }
 
-  console.log(`\n✅ Selected ${selectedFiles.length} files for documentation\n`);
+  console.log(`\n  Selected ${selectedFiles.length} files for documentation\n`);
 
   return { selectedFiles };
 }
