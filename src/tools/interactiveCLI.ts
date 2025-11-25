@@ -31,7 +31,7 @@ function buildTreeView(files: GitHubFileNode[]): string[] {
   let index = 0;
   for (const [dir, fileList] of grouped) {
     if (dir !== "root") {
-      lines.push(`\n📁 ${dir}/`);
+      lines.push(`\n  ${dir}/`);
     }
     for (const file of fileList) {
       const fileName = file.split("/").pop()!;

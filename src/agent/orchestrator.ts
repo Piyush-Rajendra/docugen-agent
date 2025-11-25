@@ -29,7 +29,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
     isGitHub = true;
     console.log(`    Mode: GitHub Repository`);
     console.log(`  URL: ${config.githubUrl}`);
-    console.log(`📁 Output: ${config.outputDir}`);
+    console.log(`  Output: ${config.outputDir}`);
     console.log("━".repeat(60));
 
     // Parse GitHub URL
@@ -64,7 +64,7 @@ export async function runDocGenAgent(config: AgentConfig): Promise<void> {
   } else if (config.targetDir) {
     console.log(`  Mode: Local Directory`);
     console.log(`  Target: ${config.targetDir}`);
-    console.log(`📁 Output: ${config.outputDir}`);
+    console.log(`  Output: ${config.outputDir}`);
     console.log("━".repeat(60));
 
     // Scan local directory
