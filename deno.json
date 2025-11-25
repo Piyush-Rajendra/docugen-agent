@@ -1,0 +1,31 @@
+{
+  "name": "@vortex/docugen-agent",
+  "version": "1.0.0",
+  "exports": "./src/main.ts",
+  "tasks": {
+    "start": "deno run -A src/main.ts",
+    "dev": "deno run -A --watch src/main.ts",
+    "check": "deno check src/main.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint"
+  },
+  "imports": {
+    "@anthropic-ai/sdk": "npm:@anthropic-ai/sdk@^0.24.0",
+    "@std/path": "jsr:@std/path@^1.0.0",
+    "@std/fs": "jsr:@std/fs@^1.0.0",
+    "@std/cli": "jsr:@std/cli@^1.0.0"
+  },
+  "compilerOptions": {
+    "lib": ["deno.window", "deno.ns", "esnext"],
+    "strict": true
+  },
+  "fmt": {
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+``
+# Environment
+.env
+
+# Deno
+deno.lock
+
+# Output
+output/
+docs/
+
+# Temporary
+temp/
+.git_temp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
