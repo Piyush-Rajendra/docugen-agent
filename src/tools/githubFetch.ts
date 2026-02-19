@@ -5,6 +5,32 @@ export interface GitHubFileNode {
   children?: GitHubFileNode[];
 }
 
+interface GitHubTreeItem {
+  path: string;
+  type: "blob" | "tree" | string;
+  url: string;
+  sha: string;
+  size?: number;
+  mode?: string;
+}
+
+interface GitHubTreeResponse {
+  tree: GitHubTreeItem[];
+  sha: string;
+  url: string;
+  truncated: boolean;
+}
+
+interface GitHubContentResponse {
+  content: string;
+  encoding: string;
+  path: string;
+  name: string;
+  sha: string;
+  size: number;
+  url: string;
+}
+
 export interface FetchRepoTreeInput {
   owner: string;
   repo: string;
@@ -64,18 +90,18 @@ export async function fetchRepoTree(
       return { tree: [], success: false };
     }
 
-    const data = await response.json();
+    const data: GitHubTreeResponse = await response.json();
     const codeExtensions = [".ts", ".js", ".tsx", ".jsx", ".py", ".java", ".cpp", ".c", ".go"];
-    
+
     // Filter only code files and build tree structure
     const tree: GitHubFileNode[] = data.tree
-      .filter((item: any) => {
+      .filter((item: GitHubTreeItem) => {
         if (item.type === "tree") return false;
         return codeExtensions.some(ext => item.path.endsWith(ext));
       })
-      .map((item: any) => ({
+      .map((item: GitHubTreeItem) => ({
         path: item.path,
-        type: item.type === "blob" ? "file" : "dir",
+        type: item.type === "blob" ? "file" as const : "dir" as const,
         url: item.url,
       }));
 
@@ -107,8 +133,8 @@ export async function fetchFileContent(
       return { content: "", path: input.path, success: false };
     }
 
-    const data = await response.json();
-    
+    const data: GitHubContentResponse = await response.json();
+
     // GitHub returns base64 encoded content
     const content = atob(data.content.replace(/\n/g, ""));
 

@@ -13,7 +13,7 @@ export async function scanDirectory(
   input: ScanDirectoryInput
 ): Promise<ScanDirectoryOutput> {
   const files: string[] = [];
-  const extensions = [".ts", ".js", ".tsx", ".jsx"];
+  const extensions = [".ts", ".js", ".tsx", ".jsx", ".py", ".java", ".cpp", ".c", ".go"];
 
   try {
     for await (const entry of walk(input.path, {
